@@ -372,7 +372,7 @@ app.post('/api/generate-questions', async (req, res) => {
 
   const content = cleanContent(rawContent).substring(0, 2000);
 
-  const userPrompt = `Generate 10 MCQs for a UK final-year MPharm student. Topic: ${topicLabel}.
+  const userPrompt = `Generate 5 MCQs for a UK final-year MPharm student. Topic: ${topicLabel}.
 
 Return ONLY this JSON (no markdown, no extra text):
 {"questions":[{"question":"...","topic":"${topicLabel}","options":["A. ...","B. ...","C. ...","D. ..."],"correctIndex":0,"explanation":"..."}]}
@@ -384,8 +384,8 @@ ${content}`;
 
   try {
     const response = await client.messages.create({
-      model: 'claude-haiku-4-5',
-      max_tokens: 1500,
+      model: 'claude-haiku-3-5-20241022',
+      max_tokens: 1200,
       system: [{ type: 'text', text: QA_SYSTEM, cache_control: { type: 'ephemeral' } }],
       messages: [{ role: 'user', content: userPrompt }]
     });
