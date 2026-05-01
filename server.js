@@ -382,25 +382,34 @@ Rules: 4 options (A-D), exactly 1 correct answer, clinically relevant, explanati
 CONTENT:
 ${content}`;
 
-  try {
+  const callAPI = async (prompt, maxTokens) => {
     const response = await client.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 800,
+      max_tokens: maxTokens,
       system: QA_SYSTEM,
-      messages: [{ role: 'user', content: userPrompt }]
+      messages: [{ role: 'user', content: prompt }]
     });
-
     const text = response.content
       .filter(block => block.type === 'text')
       .map(block => block.text)
       .join('');
-    console.log('Raw API response:', text.substring(0, 800));
+    console.log('API response (first 800 chars):', text.substring(0, 800));
     const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      console.error('No JSON found. Full response:', text);
-      throw new Error('No JSON found in response');
+    if (!jsonMatch) throw new Error('No JSON found in response: ' + text.substring(0, 200));
+    return JSON.parse(jsonMatch[0]);
+  };
+
+  try {
+    let parsed;
+    try {
+      parsed = await callAPI(userPrompt, 2500);
+    } catch (firstErr) {
+      console.error('First attempt failed:', firstErr.message, '— retrying with simpler prompt');
+      const retryPrompt = `Generate 2 MCQs on "${topicLabel}" for a UK MPharm student.
+Return ONLY valid JSON, no markdown:
+{"questions":[{"question":"...","topic":"${topicLabel}","options":["A. ...","B. ...","C. ...","D. ..."],"correctIndex":0,"explanation":"..."}]}`;
+      parsed = await callAPI(retryPrompt, 1500);
     }
-    const parsed = JSON.parse(jsonMatch[0]);
     res.json(parsed);
   } catch (e) {
     console.error('Error:', e.message, e.status);
