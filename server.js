@@ -351,6 +351,7 @@ function cleanContent(text) {
 const QA_SYSTEM = 'UK MPharm MCQ writer. Produce clinically accurate exam questions. Return valid JSON only, no markdown.';
 
 app.post('/api/generate-questions', async (req, res) => {
+  res.setTimeout(120000);
   const { topic } = req.body;
   if (!topic) return res.status(400).json({ error: 'topic is required' });
 
@@ -383,17 +384,24 @@ ${content}`;
 
   try {
     const response = await client.messages.create({
-      model: 'claude-haiku-4-5',
-      max_tokens: 2000,
+      model: 'claude-haiku-3-5',
+      max_tokens: 1500,
       system: [{ type: 'text', text: QA_SYSTEM, cache_control: { type: 'ephemeral' } }],
       messages: [{ role: 'user', content: userPrompt }]
     });
 
     const text = response.content.map(b => b.text || '').join('');
-    const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+    console.log('Raw API response:', text.substring(0, 500));
+    let parsed;
+    try {
+      parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+    } catch (parseErr) {
+      console.error('JSON parse failed. Raw response:', text);
+      return res.status(500).json({ error: 'Failed to parse AI response. Raw: ' + text.substring(0, 200) });
+    }
     res.json(parsed);
   } catch (e) {
-    console.error('generate-questions error:', e.status, e.message);
+    console.error('Error:', e.message, e.status);
     res.status(500).json({ error: e.message || 'Failed to generate questions. Please try again.' });
   }
 });
