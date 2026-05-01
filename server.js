@@ -22,164 +22,309 @@ app.get('/', (req, res) => {
 
 // ===================== TOPIC CONTENT FALLBACKS =====================
 const TOPIC_CONTENT = {
-  'clinical-reasoning': `Clinical Reasoning PHAY0085 MPharm:
-- Clinical reasoning = thinking and decision-making processes in clinical practice. Context specific. Cognitive process formulating diagnoses.
-- Dual Process Theory: System 1 (Type 1) = fast, automatic, pattern recognition, intuitive, time-pressured. Prone to cognitive bias. System 2 (Type 2) = slow, deliberate, analytical, logical. Used for complex/unfamiliar cases.
-- Balancing systems: effective reasoning switches between both. Intuition when appropriate, analytical for complex decisions.
-- Conscious Competence Model: 4 stages - unconscious incompetence, conscious incompetence, conscious competence, unconscious competence.
-- Collaborative Clinical Reasoning: working alongside others on diagnostic, therapeutic, prognostic issues.
-- Working diagnosis = provisional most probable diagnosis from initial evaluation. Differential diagnosis = list of potential conditions in order of likelihood. Red Flags = worrying symptoms suggesting higher acuity. Safety Netting = "If I'm right, what do I expect? How will I know if wrong? What would I do?"
-- Consequences of poor reasoning: over-reliance on System 1, failure to gather info, inconsistent EBM, not recognising when to switch systems, patient harm.
-- Diagnostic uncertainty is normal. "Hear hooves think horse not zebra." If cannot formulate differentials, may be beyond competence.
-- Risk Aversion vs Risk Management: risk aversion = psychological preference avoiding negative outcomes, leads to over-testing. Risk management = rational referral decision.
-- Human factors: time pressure, cognitive bias, emotional state, fatigue influence decisions.
-- Bias types: anchoring bias, availability bias, premature closure, framing effect.
-- Independent prescriber: accountable for prescribing decisions, can prescribe autonomously within clinical competence (GPhC wording).
-- Strategies: metacognition, reflective practice, seek feedback, structured reasoning.`,
+  'global-health': `Global Health - Post COVID-19 Impact on Social Determinants of Health:
+- Social determinants of health (SDOH): conditions in which people are born, grow, live, work and age. Include income, education, employment, housing, food security, social support.
+- COVID-19 widened health inequalities: disproportionate impact on ethnic minorities, deprived communities, elderly, disabled people.
+- WHO Commission on Social Determinants: daily living conditions + structural drivers of inequity = health outcomes. Requires action beyond healthcare sector.
+- Post-pandemic recovery priorities: rebuilding primary care access, mental health services, vaccination programmes, addressing long COVID.
+- Health inequalities in UK: life expectancy gap between most and least deprived areas = 10 years for men, 7 years for women.
+- Marmot Review 2020: health inequalities worsening. Recommendations: early child development, education, employment, living standards, social protection.
+- Pharmacy role in addressing SDOH: community access point, health checks, signposting, vaccinations, smoking cessation, healthy living pharmacies.
+- COVID-19 impact: disrupted cancer screening, elective care backlogs, increased mental health burden, exacerbated digital divide.
+- One Health approach: human, animal, environmental health are interconnected. Antimicrobial resistance, zoonotic diseases, climate change.
+- SDG3 (Sustainable Development Goal): Good Health and Well-Being. Universal Health Coverage target by 2030.`,
 
-  'consultation': `Consultation Skills MPharm UCL:
-- Calgary-Cambridge model: initiating, gathering information, physical examination, explanation and planning, closing. Has structure guides.
-- Communication = two-way process of reaching mutual understanding in context of caring relationships.
-- SOAP notes: Subjective (patient's account), Objective (clinical findings/obs), Assessment (working diagnosis), Plan (management).
-- Open questions, active listening, empathy, reflective listening, summaries are core skills.
-- Person-centred approach: explore illness experience, understand patient perspective.
-- Paediatric consultations: children over 5 may be capable. Build rapport first. Read subtle cues. Young people 16-17 have presumed capacity but may want parent input. Adjust language.
-- Remote consultations: camera at eye level, stable connection, acknowledge delays. Record medium used. Obtain explicit consent if recording. Refer/reschedule if communication fails.
-- Informed consent, capacity, confidentiality are legal considerations.
-- ICE model: Ideas, Concerns, Expectations.
-- Consultation models: Neighbour's Inner Consultation, Pendleton's model, Calgary-Cambridge.
-- Handover: SBAR (Situation, Background, Assessment, Recommendation).
-- Non-verbal communication includes eye contact, facial expression, body language - harder in remote consultations.
-- Adapting for children: "Hello my name is" important, build rapport, ask unrelated question first, consider Gillick competence.`,
+  'diabetes': `Diabetes MPharm:
+- Type 1 Diabetes: autoimmune destruction of beta cells. Absolute insulin deficiency. Presents in younger patients. DKA risk. Requires insulin always.
+- Type 2 Diabetes: insulin resistance + progressive beta cell failure. Associated with obesity, sedentary lifestyle, family history. Most common type (90%).
+- Diagnosis: HbA1c >=48 mmol/mol (6.5%) on two occasions, OR fasting glucose >=7.0 mmol/L, OR 2-hour OGTT >=11.1 mmol/L, OR random glucose >=11.1 with symptoms.
+- HbA1c targets: generally 48 mmol/mol (6.5%) for newly diagnosed; 53 mmol/mol (7.0%) if on drugs causing hypoglycaemia.
+- Metformin: first line T2DM. Biguanide. Decreases hepatic glucose production. Renal dose reduction: eGFR 30-45 reduce dose, stop if <30. Risk of lactic acidosis. GI side effects. Cardioprotective.
+- SGLT2 inhibitors (gliflozins - empagliflozin, dapagliflozin, canagliflozin): glucosuria, weight loss, BP reduction, cardioprotective, renoprotective. Risk: DKA, UTI, Fournier's gangrene, volume depletion. Stop before surgery.
+- GLP-1 receptor agonists (semaglutide, liraglutide, dulaglutide): weight loss, CV benefit. Injectable (or oral semaglutide). GI side effects. Not in pancreatitis history.
+- Insulin types: rapid (aspart, lispro), short (soluble), intermediate (isophane), long-acting (glargine, detemir, degludec). Basal-bolus regimen common in T1DM.
+- Complications: microvascular (retinopathy, nephropathy, neuropathy), macrovascular (CVD, stroke, peripheral arterial disease).
+- Sick day rules: continue metformin unless vomiting. Stop SGLT2i if acutely unwell (DKA risk). Monitor glucose more frequently.
+- Hypoglycaemia: <4 mmol/L. Symptoms: sweating, tremor, confusion. Treatment: 15-20g fast-acting carbohydrate. Glucagon if unconscious.`,
+
+  'adherence-support': `Principles and Practice of Adherence Support - Prof Robert Horne UCL:
+- Adherence = extent to which patient's behaviour corresponds with agreed recommendations. Encompasses initiation, implementation, discontinuation.
+- Non-adherence may be the norm: average adherence to long-term medicines is 50%. Variable between and within patients over time.
+- Information-action gap: giving patients information does not automatically change behaviour.
+- Perceptions and Practicalities Approach (PaPA) - NICE CG76 endorsed: two root causes of non-adherence.
+- DON'T WANT TO (perceptions): driven by beliefs, concerns, attitudes, emotional responses. Intentional non-adherence. Needs motivational/cognitive approach.
+- CAN'T (practicalities): capability limitations, resource constraints, memory, physical difficulties. Unintentional non-adherence. Needs practical solutions.
+- Necessity-Concerns Framework (NCF): patients weigh necessity of medication against concerns about taking it. When concerns outweigh necessity = non-adherence. Meta-analytic evidence across 18,000+ patients.
+- Beliefs About Medicines Questionnaire (BMQ): measures necessity and concerns. Validated tool.
+- Addressing intentional non-adherence: elicit and address specific concerns, provide accurate information, involve patient in decision-making.
+- Addressing unintentional non-adherence: simplify regimen, dose aids (compliance aids), reminders, establish routine, involve carer.
+- Pharmacist role: medication reviews, non-judgmental questioning, shared decision-making, addressing practical barriers.
+- NICE CG76 (2009): Medicines Adherence - involving patients in decisions and supporting adherence. Key principles: patient-centred, explore beliefs, support practical needs.`,
+
+  'surgery': `Perioperative Medicines Management - Surgery:
+- Medicines to CONTINUE perioperatively: antihypertensives (except ACE inhibitors/ARBs on day of surgery), statins, antiepileptics, thyroid medications, corticosteroids (increase dose for stress), inhalers, eye drops.
+- Medicines to STOP before surgery: metformin (stop 48h before if contrast/major surgery), SGLT2 inhibitors (stop 3 days before - DKA risk), warfarin (stop 5 days before, bridge with LMWH if high risk), DOACs (stop 24-48h before depending on renal function), NSAIDs (stop 7 days before), COX-2 inhibitors.
+- ACE inhibitors/ARBs: hold on morning of surgery to prevent intraoperative hypotension. Restart when patient eating/drinking.
+- VTE prophylaxis: NICE NG89. Mechanical (compression stockings, IPC devices) + pharmacological (LMWH). Risk assessment using Caprini/NICE tool. Duration depends on surgery type.
+- Anticoagulation bridging: warfarin patients with high thromboembolic risk. Stop warfarin, give LMWH perioperatively, restart warfarin post-op. High risk = mechanical heart valves, AF + prior stroke.
+- Enhanced Recovery After Surgery (ERAS): carbohydrate loading pre-op, early feeding, early mobilisation, multimodal analgesia, minimise opioids, reduce IV fluids.
+- Stress dose steroids: patients on long-term corticosteroids need supplemental hydrocortisone perioperatively due to adrenal suppression (HPA axis).
+- Insulin management: variable rate IV insulin infusion (VRIII) for T1DM and most T2DM. Target glucose 6-10 mmol/L perioperatively.
+- Antibiotic prophylaxis: given at induction. Covers expected organisms. E.g. co-amoxiclav for colorectal surgery. Single dose unless prolonged surgery.
+- NSAIDs and renal risk: avoid perioperatively due to renal impairment risk, fluid retention, bleeding.`,
+
+  'liver': `Liver Disease and Hepatic Drug Dosing:
+- Liver functions: metabolism (CYP450 enzymes), synthesis (albumin, clotting factors, glucose), storage (glycogen, vitamins), excretion (bile, bilirubin), detoxification.
+- Liver Function Tests (LFTs): ALT/AST (hepatocellular damage), ALP/GGT (cholestasis/biliary), bilirubin (excretion), albumin (synthetic function), PT/INR (coagulation).
+- Child-Pugh Score: assesses severity of cirrhosis. Parameters: bilirubin, albumin, PT, ascites, encephalopathy. Class A (5-6) = mild, B (7-9) = moderate, C (10-15) = severe.
+- MELD score (Model for End-stage Liver Disease): creatinine, bilirubin, INR. Used for transplant prioritisation.
+- Hepatic impairment drug dosing: avoid drugs with extensive first-pass metabolism, hepatotoxic drugs, those causing fluid retention. Reduce doses of hepatically metabolised drugs in Child-Pugh B/C.
+- Drugs to avoid in hepatic impairment: NSAIDs (GI bleed + renal risk), opioids (hepatic encephalopathy risk), statins (caution), metformin (lactic acidosis), rifampicin.
+- Alcohol-related liver disease: fatty liver -> alcoholic hepatitis -> cirrhosis. Abstinence is key treatment. Steroids for severe alcoholic hepatitis (Maddrey discriminant function >32).
+- NAFLD (Non-Alcoholic Fatty Liver Disease): associated with obesity, T2DM, metabolic syndrome. Lifestyle modification first line. May progress to NASH, cirrhosis.
+- Cirrhosis complications: portal hypertension, oesophageal varices (beta-blockers prophylaxis, banding), ascites (spironolactone +/- furosemide, low sodium diet), spontaneous bacterial peritonitis (SBP), hepatic encephalopathy (lactulose, rifaximin), hepatorenal syndrome.
+- Paracetamol overdose: N-acetylcysteine treatment. Nomogram to determine treatment threshold.`,
+
+  'renal-impairment': `Renal Impairment - AKI and CKD:
+- Acute Kidney Injury (AKI): rapid decline in renal function over hours-days. AKIN staging: Stage 1 (creatinine x1.5-1.9 baseline or rise >=26 micromol/L), Stage 2 (x2.0-2.9), Stage 3 (x3.0 or >354 micromol/L or dialysis).
+- AKI causes: Pre-renal (hypovolaemia, sepsis, heart failure), Intrinsic (ATN, glomerulonephritis, drug toxicity), Post-renal (obstruction - stones, BPH).
+- AKI STOP drugs: NSAIDs, ACE inhibitors, ARBs, diuretics, aminoglycosides, contrast agents, metformin. "SADMANS" = Sulfonamides, ACEi, Diuretics, Metformin, ARBs, NSAIDs, SGLT2i.
+- Chronic Kidney Disease (CKD): progressive irreversible loss of renal function over months-years. Stages 1-5 based on eGFR. Stage 5 = <15 mL/min/1.73m2 (kidney failure).
+- eGFR (estimated GFR): calculated from serum creatinine, age, sex. Used for CKD staging. NOT for drug dosing.
+- Cockcroft-Gault equation: CrCl = (140-age) x weight x constant / serum creatinine. Constant = 1.23 men, 1.04 women. USE FOR DRUG DOSING. Use IBW if obese.
+- Drug dosing in renal impairment: reduce dose and/or increase interval. Consult BNF/SPC. Drugs renally excreted need adjustment.
+- Nephrotoxic drugs to avoid: NSAIDs, aminoglycosides (monitor levels), vancomycin (monitor levels), contrast media, lithium, ciclosporin.
+- Dose adjustments: gentamicin (CrCl-based dosing), digoxin (reduce in renal impairment), metformin (stop if eGFR <30), DOACs (dose adjust or avoid based on CrCl).
+- CKD complications: anaemia (EPO deficiency - treat with ESA + iron), hypertension, metabolic acidosis, hyperphosphataemia, secondary hyperparathyroidism, cardiovascular disease.
+- Monitoring: U+E (urea, electrolytes, creatinine), eGFR, urine ACR (albumin:creatinine ratio for proteinuria).`,
+
+  'leadership': `Leadership and Patient Safety in Healthcare:
+- Mid Staffordshire NHS Trust Scandal: Francis Report 2013. Between 400-1200 excess deaths 2005-2009. Failures: poor culture, bullying, targets over care, failure to listen to patients/staff.
+- Key failures identified: lack of openness, inadequate staffing, poor governance, regulatory failure, culture of fear.
+- Ockenden Report 2022: maternity failings at Shrewsbury and Telford NHS Trust. 201 babies died unnecessarily. Failures to investigate, learn, implement change.
+- HSIB (Healthcare Safety Investigation Branch): independent investigation of serious patient safety incidents. Learning not blame.
+- Duty of Candour (statutory): organisations must be open with patients when things go wrong. Apologise, explain, support.
+- Speaking Up: Freedom to Speak Up Guardians in NHS trusts since 2016. NHS staff can raise concerns without fear of reprisal.
+- Psychological safety (Amy Edmondson): belief that one can speak up without fear of punishment. Essential for safety culture and learning.
+- NHS Leadership Academy: Healthcare Leadership Model. 9 leadership dimensions including inspiring shared purpose, engaging the team, holding to account.
+- Patient safety culture vs blame culture: safety culture = learning from error, systems thinking, no blame for honest mistakes. Blame culture = individual punishment, concealment, repeated errors.
+- Compassionate leadership (Michael West): attending, understanding, empathising, helping. Reduces burnout, improves care quality.
+- Human factors (systems thinking): errors result from system failures not just individual failure. Swiss Cheese Model (Reason). Latent and active failures.
+- GPhC standards: pharmacists must raise concerns about risk to patient safety. Professional obligation to speak up.`,
+
+  'anaemia': `Anaemia - Types, Diagnosis and Treatment:
+- Anaemia definition: Hb <130 g/L men, <120 g/L women (WHO). Reduced oxygen-carrying capacity.
+- Iron Deficiency Anaemia (IDA): most common. Microcytic, hypochromic. Low ferritin (<15 microg/L), low serum iron, high TIBC. Causes: blood loss (GI, menstrual), poor intake, malabsorption (coeliac).
+- IDA treatment: oral ferrous sulfate 200mg TDS (= 65mg elemental iron per tablet). Take on empty stomach. Vitamin C enhances absorption. Side effects: constipation, dark stools, nausea. IV iron if oral not tolerated or rapid repletion needed.
+- Vitamin B12 deficiency anaemia: macrocytic, megaloblastic. Causes: pernicious anaemia (anti-intrinsic factor antibodies), vegans/vegetarians, malabsorption. Neurological complications (subacute combined degeneration of cord).
+- B12 treatment: hydroxocobalamin IM injections (1mg). If dietary: oral cyanocobalamin. Monitor: 3-monthly injections for pernicious anaemia lifelong.
+- Folate deficiency anaemia: macrocytic, megaloblastic. Causes: poor diet, pregnancy, methotrexate, phenytoin. Folic acid 5mg daily. Important in pregnancy (neural tube defect prevention - 400 microg daily pre-conception).
+- Anaemia of Chronic Disease (ACD): normocytic or microcytic. Associated with chronic inflammation (RA, CKD, malignancy). Normal/high ferritin. Low serum iron. Treat underlying condition. ESA in CKD.
+- Haemolytic anaemia: premature red cell destruction. Intravascular (G6PD deficiency, drug-induced) or extravascular (autoimmune). Raised bilirubin, LDH, reticulocytes. Reduced haptoglobin.
+- Sickle cell disease: HbS mutation. Sickling in hypoxia. Crises: vaso-occlusive (pain), acute chest syndrome, stroke. Treatment: hydroxyurea, exchange transfusion, penicillin prophylaxis.
+- Investigations: FBC, blood film, reticulocyte count, iron studies, B12/folate, haemolytic screen.`,
+
+  'medicines-safety': `Medicines Safety, NPSA Alerts and Medication Errors:
+- NPSA (National Patient Safety Agency) Alerts: mandatory safety actions. Types: Patient Safety Alert (immediate action), Drug Safety Update (regulatory information).
+- Never Events: serious, largely preventable patient safety incidents. Examples: wrong-route medication errors (intrathecal vincristine), retained instruments post-surgery, wrong-site surgery.
+- Vincristine: NPSA Alert 2008. NEVER give intrathecally (causes death). Must be given as IV infusion in minibag. Bags labelled "FOR INTRAVENOUS USE ONLY - NOT FOR INTRATHECAL USE".
+- High-risk medicines: insulin, anticoagulants (warfarin, heparin, DOACs), potassium chloride concentrate, concentrated sodium chloride, opioids, methotrexate, lithium, cytotoxics.
+- Methotrexate: once WEEKLY not daily. Dispensed with blue "ONCE WEEKLY" stickers. Dispensing error (daily instead of weekly) = potentially fatal. Monitoring: FBC, LFTs, renal function.
+- Insulin safety: never abbreviate "units" (write in full - prevents 10x overdose). Correct device selection. Never draw up from pen cartridge.
+- Yellow Card Scheme (MHRA): voluntary reporting of adverse drug reactions by healthcare professionals, patients, carers. Reports for all reactions to new drugs (Black Triangle), serious reactions to established drugs.
+- MHRA Drug Safety Updates: mandatory monitoring requirements. Examples: valproate (PPP), methylphenidate (cardiovascular), fluoroquinolones (aortic aneurysm risk).
+- Polypharmacy: 5+ regular medicines. Problematic polypharmacy = inappropriate, where harm outweighs benefit. Medication review, deprescribing, STOPP/START criteria.
+- Medication reconciliation: process of comparing medicines on admission/discharge to prevent errors. Discrepancies must be resolved.
+- Dispensing errors: wrong drug, wrong dose, wrong patient, wrong route, omission. Systematic approach: double-checking, automation, clear labelling, near-miss reporting culture.`,
+
+  'digital-pharmacy': `Digital Pharmacy - NHS Digital Transformation:
+- NHS Digital = national information and technology partner for health and care in England. Serves 55 million people. Runs 600+ live services.
+- EPS (Electronic Prescription Service): electronic transmission of prescriptions from prescriber to dispenser. Reduces paper, improves accuracy, enables electronic repeat dispensing.
+- SCR (Summary Care Record): national patient record with core information (medicines, allergies, adverse reactions). Available to authorised NHS staff. Patients can add additional information.
+- EPMA (Electronic Prescribing and Medicines Administration): replaces paper drug charts. Reduces prescribing and administration errors. Clinical decision support built in.
+- Shared Care Records: local/regional sharing of patient records between NHS organisations. Improves continuity of care.
+- NHS App: patient-facing digital tool. Access to GP records, prescriptions, appointments, COVID certificates, organ donation registration.
+- Clinical decision support: alerts for drug interactions, allergies, duplicate medications, renal/hepatic dose adjustments. Integrated into EPMA and dispensing systems.
+- dm+d (Dictionary of Medicines and Devices): NHS standard coding system for medicines. Ensures consistent identification across systems.
+- SNOMED CT: clinical terminology standard used in NHS records. Enables data sharing and analytics.
+- Interoperability challenges: legacy systems, different standards, data governance, cultural resistance to change.
+- AI in pharmacy: pattern recognition in adverse events, workload prediction, automated dispensing, clinical decision support, medication safety alerts.
+- Pharmacist role in digital health: clinical lead for EPMA implementation, medicines informatics specialist, digital champion, training staff, system configuration.`,
+
+  'womens-health': `Women's Health - Contraception and Reproductive Health:
+- Emergency Contraception (EC): indicated after unprotected sex (UPSI) or contraceptive failure. Highest risk days = 6 days up to and including ovulation day.
+- Cu-IUD (Copper coil): most effective EC (>99%). Works pre- and post-fertilisation. Insert within 5 days of UPSI or 5 days after earliest possible ovulation. Retained for ongoing contraception (up to 10 years).
+- Ulipristal acetate (ellaOne): progesterone receptor modulator. Effective up to 120 hours (5 days) after UPSI. More effective than LNG at 72-120h. Avoid breastfeeding 1 week after. Reduced efficacy if BMI >85kg or >35 kg/m2 (but still use).
+- Levonorgestrel (Levonelle): effective up to 72 hours. Reduces pregnancy risk by 85% if taken <24h. Less effective with higher BMI. Available OTC.
+- OTC Desogestrel (Cerelle, Cerazette): progestogen-only pill. 75 microgram daily. 12-hour window for missed pill (vs 3h for other POPs). No oestrogen = fewer contraindications. Enzyme inducers reduce efficacy.
+- CPSC (Community Pharmacist Consultation Service) and Pharmacy Contraception Service: pharmacists can supply EC and desogestrel under PGD.
+- Vaginal infections: Thrush (Candida albicans) - itching, white discharge, treat with clotrimazole or fluconazole. BV (Bacterial Vaginosis - Gardnerella) - fishy odour, grey discharge, treat with metronidazole.
+- Urinary incontinence: stress (coughing/sneezing - pelvic floor exercises), urge (OAB - bladder training, antimuscarinics, mirabegron), mixed, overflow.
+- Menstrual cycle: 28-day average. Ovulation day 14 (14 days before next period). Sperm viable up to 5 days. Ovum viable ~24 hours.
+- Chlamydia: most common bacterial STI. Often asymptomatic. Treat: azithromycin 1g single dose or doxycycline 100mg BD 7 days. Partner notification essential.`,
+
+  'mental-health': `Mental Health - Bipolar, Schizophrenia, Depression, Anxiety:
+- Bipolar Disorder: episodes of mania and depression. Type 1 (mania + depression), Type 2 (hypomania + depression).
+- Lithium: mood stabiliser for bipolar. Narrow therapeutic index. Target level 0.4-1.0 mmol/L (0.8-1.0 for acute mania). Monitor: renal function, TFTs, serum levels. Toxicity: tremor, polyuria, GI upset, confusion (>1.5 mmol/L), seizures (>2.0 mmol/L). Avoid dehydration, NSAIDs (increase lithium levels), ACE inhibitors. Teratogenic (Ebstein's anomaly).
+- Schizophrenia: psychosis, positive symptoms (hallucinations, delusions, disorganised thinking) and negative symptoms (avolition, flat affect, alogia).
+- Antipsychotics: D2 receptor antagonism. Typical (haloperidol, chlorpromazine) vs Atypical (olanzapine, risperidone, quetiapine, aripiprazole). Atypicals preferred (fewer EPSEs but more metabolic side effects).
+- Clozapine: for treatment-resistant schizophrenia (failed 2 antipsychotics). Requires Clozapine Patient Monitoring Service. Risk: agranulocytosis (life-threatening neutropenia). Weekly FBC for 18 weeks, then 2-weekly, then 4-weekly.
+- Depression: PHQ-9 screening tool. Mild-moderate: CBT, lifestyle. Moderate-severe: SSRIs first line (fluoxetine, sertraline, citalopram).
+- SSRI side effects: GI upset initially, sexual dysfunction, serotonin syndrome (with MAOIs/tramadol), increased suicidal ideation initially in under-25s. Discontinuation syndrome (except fluoxetine - long half-life).
+- Anxiety: GAD-7 screening. SSRIs/SNRIs first line for GAD. Benzodiazepines: short-term only (tolerance/dependence risk). Z-drugs similarly.
+- Mental Health Act 1983 (amended 2007): Section 2 (assessment 28 days), Section 3 (treatment 6 months), Section 136 (police - public place). Pharmacist role: prepare medicines for detained patients.
+- NICE guidelines: depression (CG90/NG222), bipolar (CG185), schizophrenia (NG185).`,
+
+  'cns': `CNS - Epilepsy, MS, Dementia, Parkinson's Disease:
+- Epilepsy - AED selection: focal seizures: lamotrigine or carbamazepine. Generalised: valproate (avoid in women of childbearing potential), lamotrigine, levetiracetam.
+- Valproate: highly effective but teratogen. Neural tube defects (1-2%), facial malformations, neurodevelopmental disorders (30-40% risk). Valproate Pregnancy Prevention Programme (PPP): specialist initiation, annual review, contraception required, yellow card to patient/carer, 2 specialists to override in females under 55.
+- Lamotrigine: safer in pregnancy but requires careful dose titration. Interactions with OCP (OCP reduces lamotrigine levels). Rash risk (Stevens-Johnson syndrome) - slow titration.
+- Levetiracetam: broad spectrum, renally excreted, few interactions, safer pregnancy profile. Psychiatric side effects: mood changes, aggression.
+- Phenytoin: enzyme inducer (CYP3A4, 2C9). Narrow therapeutic index. Interactions: warfarin, OCP, DOACs, amiodarone, statins. Zero-order kinetics at therapeutic doses.
+- Multiple Sclerosis (MS): autoimmune demyelination. Relapsing-remitting (RRMS) most common. Disease-modifying therapies: interferon-beta, glatiramer, natalizumab, alemtuzumab, ocrelizumab.
+- Dementia - Alzheimer's disease: progressive cognitive decline. Cholinesterase inhibitors (donepezil, rivastigmine, galantamine) for mild-moderate. Memantine (NMDA antagonist) for moderate-severe.
+- Parkinson's Disease: dopamine deficiency in substantia nigra. Levodopa + carbidopa (peripheral decarboxylase inhibitor). On/off phenomena. MAO-B inhibitors (selegiline, rasagiline). COMT inhibitors (entacapone). Dopamine agonists (ropinirole, pramipexole). Drug-induced Parkinsonism: metoclopramide, haloperidol (D2 blockade).
+- Vincristine NPSA Alert 2008: NEVER give intrathecally. Only IV infusion in minibag. Fatal if given intrathecally.`,
+
+  'pregnancy-lactation': `Pregnancy and Lactation - Pharmacology and Drug Safety:
+- Teratogenicity: ability of drug to cause foetal abnormalities. Critical period = organogenesis (weeks 3-8 post-conception). Risk exists throughout pregnancy.
+- Historical teratogens: thalidomide (limb defects), diethylstilboestrol (vaginal adenocarcinoma in offspring), isotretinoin (craniofacial defects - strict PPP).
+- Over 80% of UK women take at least one medicine during pregnancy.
+- Pharmacokinetic changes in pregnancy: increased GFR (renal clearance increased), increased plasma volume 50% (affects drug distribution), decreased albumin (more free drug), increased hepatic blood flow and CYP enzymes, delayed gastric emptying.
+- Drug transfer to foetus: passive diffusion across placenta. Factors: molecular weight (<600 Da crosses more easily), lipophilicity (higher = more transfer), protein binding (free drug crosses), ionisation state.
+- Transfer to breast milk: passive diffusion + active transport. Milk pH ~7.2 (slightly acidic vs plasma 7.4). Weakly basic drugs (pKa >7.2) concentrate in milk. Milk:Plasma (M:P) ratio. High M:P = more drug in milk.
+- Resources: UKTIS (UK Teratology Information Service) - professional resource. BUMPS website (Best Use of Medicines in Pregnancy) - patient resource. LactMed (NCBI) - lactation database.
+- Valproate in pregnancy: AVOID. Risk neural tube defects, craniofacial defects, cognitive impairment. PPP mandatory. If essential, folic acid 5mg daily, specialist supervision.
+- Safe medicines: folic acid, iron, paracetamol, antacids, PPIs, labetalol, methyldopa, nifedipine, cyclizine, metoclopramide, insulin, aspirin 75mg (pre-eclampsia prevention).
+- Gestational diabetes: metformin and/or insulin. OGTT at 24-28 weeks if risk factors. Target: fasting <5.3 mmol/L, 1h post-meal <7.8.
+- Pre-eclampsia: hypertension + proteinuria after 20 weeks. Aspirin 75-150mg from 12 weeks in high-risk women.`,
+
+  'pharmacy-first': `Pharmacy First NHS Advanced Service - 7 Clinical Pathways:
+- 7 clinical conditions: Uncomplicated UTI (women 16-64), Acute Sore Throat, Acute Otitis Media (AOM), Acute Sinusitis, Infected Insect Bites, Shingles, Impetigo.
+- UTI: Nitrofurantoin 100mg MR twice daily for 3 days. Take with food. Warn: urine may turn brown. MHRA warning: pulmonary/hepatic ADR with long-term use. Exclusions: pregnancy, recurrent UTI (>=2 in 6 months or 3 in 12), catheter, diabetes, age <16 or >64, immunocompromised, male, signs of upper UTI.
+- Sore Throat: FeverPAIN score - Fever, Purulence, Attend rapidly (<=3 days onset), inflamed Tonsils, No cough/coryza. Score 4-5 = antibiotic. First line: Phenoxymethylpenicillin 500mg QDS for 5 days adults. Penicillin allergy: Clarithromycin 250mg BD 5 days. Centor criteria alternative (4 = consider antibiotic).
+- AOM: Children 1-17 years. Otoscopy required. First line: Amoxicillin. Exclusions: recurrent AOM. Red flags: neck stiffness + photosensitivity = meningitis emergency.
+- Sinusitis: fluticasone furoate or mometasone furoate nasal spray. Antibiotics if bacterial (symptoms >10 days, worsening). Rule out migraine if no nasal symptoms.
+- Shingles: antivirals (aciclovir 800mg 5x daily or valaciclovir) within 72 hours. Ophthalmic/Ramsay Hunt = immediate referral. Immunocompromised = refer.
+- Impetigo: bullous vs non-bullous. Topical: hydrogen peroxide 1% cream (non-bullous) or fusidic acid (limited use due to resistance). Oral: flucloxacillin 500mg QDS 5 days. Allergy: erythromycin or co-trimoxazole.
+- Infected insect bites: flucloxacillin first line. Cellulitis signs = spreading redness, warmth, pain, systemic symptoms. Anaphylaxis = emergency. Penicillin allergy: clarithromycin.
+- All consultations: SOAP documentation, safety netting, differential diagnosis, red flags. TARGET antibiotic leaflets for all antibiotic supplies.`,
+
+  'paediatrics': `Paediatrics - Medicines in Children:
+- Paediatric pharmacokinetics differ from adults: absorption (variable gastric pH, slower motility), distribution (higher body water/weight ratio in neonates - larger Vd for water-soluble drugs), metabolism (immature CYP450 in neonates, higher rates in children 1-10y), excretion (reduced GFR in neonates).
+- Weight-based dosing: mg/kg dosing. Use actual body weight unless obese (then ideal body weight). Always double-check dose calculations in paediatrics.
+- Age groups: neonate (0-28 days), infant (1 month-2 years), child (2-12 years), adolescent (12-18 years). Pharmacokinetics vary significantly between groups.
+- Formulations: age-appropriate formulations essential. Liquids for young children. Taste masking important. Dispersible tablets. Avoid small tablets/capsules in young children (choking risk).
+- Off-label medicines: most medicines prescribed in children are unlicensed or off-label. Informed consent required. Prescriber takes responsibility. BNFc (British National Formulary for Children) is key reference.
+- Gillick competence: child under 16 who fully understands proposed treatment can consent without parental involvement (Gillick v West Norfolk 1985). Assess on case-by-case basis.
+- Fraser guidelines: specifically for contraception in under-16s. Criteria to provide contraception without parental consent.
+- MHRA/EMA Paediatric Regulations: require pharmaceutical companies to conduct paediatric studies for new medicines.
+- Child safeguarding: recognise signs of abuse/neglect. Duty to report concerns. Pharmacists in community are well-placed to identify at-risk children.
+- Common paediatric medicines: amoxicillin (5mg/kg TDS for AOM), paracetamol (15mg/kg QDS), ibuprofen (5-10mg/kg TDS, avoid <3 months), oral rehydration salts.
+- Fever management: paracetamol or ibuprofen (avoid ibuprofen in chickenpox). Do NOT give both simultaneously as routine. Tepid sponging no longer recommended.`,
+
+  'communication-skills': `Communication Skills - Consultations and Handover:
+- Calgary-Cambridge model: 5 tasks - Initiating the session, Gathering information, Physical examination, Explanation and planning, Closing the session. Process skills run throughout (building relationship, providing structure).
+- Communication = two-way process of reaching mutual understanding within a caring relationship.
+- ICE model: Ideas (what does patient think is wrong?), Concerns (what are they worried about?), Expectations (what do they want from this consultation?). Essential for patient-centred care.
+- SOAP notes: Subjective (patient's history, symptoms), Objective (clinical findings, observations, results), Assessment (working/differential diagnosis), Plan (management, follow-up, safety netting).
+- Open questions: begin consultation. "Tell me about...", "How can I help?". Allow patient to tell their story.
+- Active listening skills: attentive silence, nodding, eye contact, verbal encouragers ("mm-hmm"), reflecting, summarising, clarifying.
+- OARS (from MI): Open questions, Affirmations, Reflective listening, Summaries. Core communication technique.
+- Non-verbal communication: eye contact, facial expression, body posture, proxemics (personal space), paralanguage (tone, pace, pitch). Particularly important to be aware of in cross-cultural consultations.
+- SBAR handover: Situation (current problem), Background (relevant history), Assessment (clinician's view), Recommendation (action needed). Used for handover between clinicians.
+- Remote/telephone consultations: establish rapport quickly, check hearing/technology, safety-net more carefully, document consultation type, obtain consent if recording, know when to refer to face-to-face.
+- Paediatric consultations: direct questions to child where appropriate, involve parents, use age-appropriate language, build rapport before clinical questions, consider Gillick competence for older children.
+- Breaking bad news: SPIKES model (Setting, Perception, Invitation, Knowledge, Empathy, Summarise/Strategy).`,
+
+  'public-health': `Public Health - Population Health and NHS Health Check:
+- NHS Health Check: offered to adults 40-74 years, every 5 years. Screens for CVD risk, diabetes, obesity, dementia risk (over 65), alcohol use.
+- NHS Health Check components: BMI/waist circumference, blood pressure, fasting blood glucose (HbA1c), lipid profile, AUDIT-C (alcohol use), physical activity, smoking status, family history, ethnicity.
+- CVD risk calculation: QRISK3 tool. Variables: age, sex, ethnicity, deprivation (Townsend score), smoking, diabetes, systolic BP, total:HDL cholesterol ratio, family history, BMI, CKD, AF, RA, systolic BP variability.
+- Cardiovascular risk reduction: statins if QRISK3 >=10% (aged 40+) or if established CVD. Lifestyle: diet, exercise, smoking cessation, alcohol reduction.
+- AUDIT-C: 3-question alcohol screener. Frequency + quantity + binge drinking. Score >=5 women, >=8 men = hazardous/harmful drinking. AUDIT-C part of NHS Health Check.
+- 3 domains of Public Health: Health Improvement (lifestyle, inequalities, health promotion), Health Protection (infectious disease, environmental hazards, emergency preparedness), Healthcare Public Health (service planning, evaluation, evidence).
+- Social determinants of health: income, education, employment, housing, food security, social networks, access to healthcare. Wider determinants have greater influence on health than healthcare.
+- Health inequalities: systematic, avoidable differences in health between social groups. Protected characteristics (Equality Act 2010): age, sex, race, disability, religion, sexual orientation, gender reassignment, pregnancy, marriage.
+- Pharmacist public health role: NHS Health Check delivery, vaccination, smoking cessation, alcohol screening, health promotion, signposting, healthy living pharmacy.
+- NICE PHGs (Public Health Guidelines): smoking cessation, weight management, physical activity, alcohol, sexual health.`,
+
+  'gender-equity': `Gender Equity in Pharmacy and Healthcare:
+- FIP (International Pharmaceutical Federation) Gender Equity Report 2021: pharmacy profession is female-majority globally (57% pharmacists female) but leadership is male-dominated.
+- Glass ceiling: women underrepresented in senior leadership despite being majority workforce. In UK healthcare: women = 77% NHS workforce but <50% board-level positions.
+- Gender pay gap in pharmacy/healthcare: estimated 20-26% in health and social care. Structural factors: part-time working patterns, career breaks for caring, undervaluation of "feminised" work.
+- Occupational segregation: horizontal (women in community/clinical, men in industrial/academic pharmacy) and vertical (men dominate senior roles). Gender norms shape career choices.
+- Intersectionality (Kimberle Crenshaw 1989): race, gender, class, disability, sexual orientation intersect to create overlapping systems of discrimination. Cannot address gender inequity without considering race.
+- FIP recommendations: data collection on gender, mentoring/sponsorship programmes, transparent pay structures, flexible working, parental leave policies, targets for leadership diversity.
+- Maternity/paternity provisions in NHS: statutory maternity pay, NHS maternity leave policies. Pregnancy discrimination is illegal (Equality Act 2010).
+- Unconscious bias: implicit stereotypes influencing decisions. Affects hiring, promotion, performance evaluation. Bias training in NHS.
+- Women in pharmacy leadership: RPS (Royal Pharmaceutical Society) has had female presidents. GPhC board gender balance requirements.
+- Impact of gender inequity: reduced job satisfaction, higher burnout among women, talent drain from profession, suboptimal patient care (diverse teams make better decisions).`,
+
+  'clinical-decision-making': `Principles of Clinical Decision Making:
+- Clinical decision making: cognitive process of gathering and interpreting information to reach a diagnosis and management plan.
+- SOAP notes: Subjective (history, presenting complaint, HPC, PMH, DH, FH, SH, ROS), Objective (examination findings, observations, investigations), Assessment (working/differential diagnosis, reasoning), Plan (investigations, treatment, referral, safety netting, follow-up).
+- Diagnostic reasoning: hypothesis generation from initial information, then iterative testing. Hypothetico-deductive reasoning.
+- Dual Process Theory: System 1 = fast, intuitive, pattern recognition. System 2 = slow, analytical, deliberate. Effective clinicians use both. Over-reliance on System 1 = cognitive error risk.
+- Cognitive biases in clinical decision making: anchoring (first diagnosis sticks), availability (recent/memorable cases bias), premature closure (stop looking once diagnosis found), framing effect (how information is presented affects decision), confirmation bias (seek confirming evidence only).
+- Shared decision making (NICE NG197): clinician's medical expertise + patient's values/preferences. Three-talk model: team talk, option talk, decision talk. Decision aids.
+- Evidence-based medicine (EBM): integrating best research evidence with clinical expertise and patient values. Hierarchy of evidence: RCTs > cohort > case-control > case reports > expert opinion.
+- NICE guidelines: develop evidence-based recommendations. CG = clinical guideline, NG = NICE guideline, QS = quality standard, TA = technology appraisal.
+- Clinical risk assessment: probability x severity. Risk stratification tools (QRISK3 for CVD, CHA2DS2-VASc for AF, Wells score for DVT/PE).
+- Safety netting: explicit plans for "if I'm wrong, what will happen?". Key components: inform patient what to expect, when/how to seek help if symptoms change, specific red flags to watch for.
+- Differential diagnosis: systematic list of conditions that could explain presenting symptoms, ranked by probability.`,
+
+  'advanced-communication': `Advanced Communication Skills - Remote, Difficult Conversations, Breaking Bad News:
+- Remote consultations: telephone and video. Establish rapport quickly. Check hearing/understanding. Safety-net more explicitly. Document consultation modality. Know limitations: cannot examine, non-verbal cues limited. Referral threshold lower.
+- Video consultation: camera at eye level, stable connection, acknowledge delays, maintain eye contact (look at camera not screen), ensure privacy, obtain consent if recording.
+- Breaking bad news - SPIKES protocol: Setting (private, sitting down, no interruptions), Perception (what does patient know/expect?), Invitation (how much information do they want?), Knowledge (give information clearly, avoid jargon), Empathy (respond to emotional reaction), Summary and strategy (plan).
+- Difficult conversations: concerns about clinical care, end of life discussions, non-adherence, capacity assessment. Key skills: empathy, active listening, clear language, avoid blame.
+- Cultural competence: awareness of how culture, language, health literacy influence communication. Use of professional interpreters (not family members for sensitive information). Health literacy screening.
+- Motivational interviewing techniques in complex consultations: rolling with resistance, developing discrepancy, exploring ambivalence, eliciting change talk.
+- Complaints and duty of candour: when things go wrong, be honest, apologise, explain, learn. Statutory duty of candour for organisations.
+- Consent: valid consent requires capacity, information, voluntariness. Capacity = understand, retain, weigh up, communicate. Adults presumed to have capacity (Mental Capacity Act 2005).
+- Mental Capacity Act 2005: if lacks capacity - best interests decision with involvement of family/IMCA. Lasting Power of Attorney. Advance Decisions.
+- Conflict resolution: staying calm, listening to understand, separating person from problem, finding common ground, escalating appropriately.
+- De-escalation: in aggressive situations - non-threatening body language, calm voice, active listening, offer choices, call for help if needed.`,
 
   'motivational-interviewing': `Motivational Interviewing and Health Coaching PHAY0085:
-- Health behaviours are key drivers of morbidity and mortality. Smoking, diet, physical inactivity are major preventable disease contributors.
-- COM-B Model: Capability (physical/psychological) + Opportunity (physical/social) + Motivation (reflective/automatic) = Behaviour. Used to understand barriers to change.
-- Stages of Change (Prochaska and DiClemente): Pre-contemplation, Contemplation, Preparation, Action, Maintenance, Relapse.
-- Motivational Interviewing (MI): guiding principles = RULE: Resist righting reflex, Understand patient's motivation, Listen, Empower.
-- OARS: Open questions, Affirmations, Reflective listening, Summaries. Core MI skills.
-- Change talk vs Sustain talk: recognise and respond to change talk (DARN-C: Desire, Ability, Reasons, Need, Commitment). Sustain talk = arguments for status quo.
-- Health Coaching vs MI: MI = helping patients explore ambivalence. Health Coaching = supporting action once in preparation/action stage.
-- GROW model (Health Coaching): Goal, Reality, Options, Way forward. Used to develop action plan.
-- Person-centred care: patient as expert of their own life. Collaboration not confrontation.
-- Rolling with resistance: avoid arguing, reflect resistance back, shift perspective.
-- Motivational Interviewing supports adherence, lifestyle change, medicines taking.`,
+- Health behaviours = major drivers of morbidity and mortality. Smoking, physical inactivity, poor diet, alcohol are leading preventable causes of disease.
+- COM-B Model (Michie et al): Capability (physical/psychological knowledge and skills) + Opportunity (physical environment, social norms) + Motivation (reflective goals, automatic habits) = Behaviour. Identifies intervention targets.
+- Stages of Change - Transtheoretical Model (Prochaska and DiClemente): Pre-contemplation (not thinking about change), Contemplation (considering change), Preparation (planning), Action (actively changing), Maintenance (sustaining change), Relapse (return to old behaviour - part of process, not failure).
+- Motivational Interviewing (MI) definition: collaborative, person-centred method for eliciting and strengthening motivation for change. Miller and Rollnick.
+- MI RULE principles: Resist the righting reflex, Understand patient's own motivation, Listen with empathy, Empower.
+- OARS - core MI skills: Open questions (elicit information), Affirmations (acknowledge strengths), Reflective listening (demonstrate understanding), Summaries (collect and present back information).
+- Change talk (DARN-C): Desire, Ability, Reasons, Need = preparatory change talk. Commitment = mobilising change talk. Respond to and reinforce change talk.
+- Sustain talk: arguments for status quo, reasons not to change. Roll with resistance, don't argue. Reflect back without reinforcing.
+- Health Coaching vs MI: MI = helps patient explore and resolve ambivalence. Health Coaching = goal-focused, for patients in preparation/action stage.
+- GROW model (health coaching): Goal (what do you want?), Reality (where are you now?), Options (what could you do?), Way forward (what will you do? When? How?).
+- Person-centred care: patient is expert of own life. Avoid righting reflex (urge to tell patient what to do). Autonomy and self-determination. Collaboration over confrontation.`,
 
-  'pharmacy-first': `Pharmacy First NHS Advanced Service:
-- 7 clinical conditions: Uncomplicated UTI (women 16-64), Acute Sore Throat, Acute Otitis Media (AOM), Acute Sinusitis, Infected Insect Bites, Shingles, Impetigo.
-- UTI: Nitrofurantoin 100mg MR twice daily for 3 days. Take with food. May discolour urine brown. MHRA: pulmonary and hepatic ADR warning. Exclude: pregnancy, recurrent UTI, catheter, diabetes.
-- Sore Throat: FeverPAIN score - Fever, Purulence, Attend rapidly (<=3 days), inflamed Tonsils, No cough/coryza. Score 4-5 + severe = antibiotic. First line: Phenoxymethylpenicillin 500mg QDS for 5 days adults. Penicillin allergy: Clarithromycin or Erythromycin.
-- AOM: Children 1-17 years. Otoscopy required. First line: Amoxicillin. Exclude: recurrent AOM. Red flag: neck stiffness, photosensitivity = meningitis.
-- Sinusitis: fluticasone furoate or mometasone furoate nasal spray. Antibiotics if bacterial. Rule out: migraine if no nasal symptoms.
-- Shingles: antivirals within 72 hours. Elderly most at risk. Rash in dermatomal distribution.
-- Impetigo: bullous vs non-bullous. Topical: hydrogen peroxide or fusidic acid. Oral: flucloxacillin.
-- Infected insect bites: flucloxacillin first line. Check cellulitis signs.
-- All consultations: clinical reasoning, differential diagnosis, red flags, safety netting, documentation (SOAP), patient counselling, TARGET leaflets.
-- Pharmacy First Pro-forma documentation required.`,
+  'prescribing-principles': `Prescribing Principles and Legal Frameworks:
+- Independent Prescriber (IP): can prescribe any medicine (including controlled drugs) within their competence. Accountable for prescribing decisions. In UK: doctors, dentists, nurses (NMPs), pharmacists, paramedics, physiotherapists, podiatrists (with appropriate training and qualification).
+- Pharmacist Independent Prescriber: GPhC register annotation. Must have completed IP qualification. Can prescribe licensed/unlicensed medicines, off-label, controlled drugs. Responsible for diagnosis and management plan.
+- Supplementary Prescriber: prescribes within a voluntary Clinical Management Plan (CMP) agreed with an independent prescriber. Does not diagnose.
+- Patient Group Direction (PGD): written instruction for supply/administration of a named medicine to a specific group of patients meeting defined criteria. Does not require individual prescription. Pharmacist, nurse, paramedic can work under PGD. Examples: Pharmacy First treatments, flu vaccines.
+- Patient Specific Direction (PSD): written instruction from prescriber for a specific patient. Does not require a prescription form.
+- Off-label prescribing: prescribing outside of the marketing authorisation (different indication, age group, dose, route). Prescriber takes full responsibility. Must have evidence base and patient consent.
+- Controlled Drugs (CDs): Misuse of Drugs Act 1973 and Regulations 2001. Schedule 1 (no therapeutic use), Schedule 2 (morphine, fentanyl - full CD requirements), Schedule 3 (temazepam - less stringent), Schedule 4 (benzodiazepines, Z-drugs), Schedule 5 (low-strength preparations).
+- CD prescription requirements: indelible ink, written by prescriber, full name and address of patient, dose, form, total quantity in words AND figures, prescriber signature and address.
+- Prescription legal requirements: prescriber's name/address, patient name/address, date, signature, age (if under 12). Computer-generated prescriptions must have handwritten signature.
+- Unlicensed medicines: no marketing authorisation in UK. Higher risk - no regulatory oversight of quality/efficacy/safety. Prescriber takes full responsibility. Inform patient.`,
 
-  'infections': `Infections Self-Care Lectures:
-- UTI: E. coli most common (77%). Key symptoms: dysuria, nocturia, cloudy urine. Differentials: pyelonephritis (flank pain, fever, myalgia), urethritis, STI, pregnancy.
-- Acute Sore Throat: mostly viral. FeverPAIN score. Centor criteria. Self-care: analgesia, fluids. Antibiotics if score 4-5.
-- AOM: fluid in middle ear. Bacterial (S.pneumoniae, H.influenzae, M.catarrhalis) or viral. More common in children - shorter eustachian tubes.
-- Sinusitis: if no nasal congestion/discharge, consider migraine. Most viral. Antibiotics if bacterial (>10 days, fever, purulent discharge worsening).
-- Shingles: reactivation of varicella zoster. Dermatomal rash. Antivirals within 72h most effective. Post-herpetic neuralgia complication.
-- Impetigo: S.aureus or Streptococcus. Non-bullous: golden crusts. Bullous: fluid-filled blisters. Spreads by direct contact.
-- Infected insect bites: cellulitis signs = spreading redness, warmth, swelling. Anaphylaxis risk.
-- Neutropenic sepsis EMERGENCY: neutrophils <1.0 + temp >38 degrees C. Antibiotics within 60 minutes. PIP/TAZ + gentamicin (no penicillin allergy).
-- Pharmacy First 7 clinical pathways application.
-- RSV, rhinovirus, adenovirus cause viral respiratory infections.
-- Sepsis: THINK SEPSIS. Safety net all patients. Signs: altered consciousness, tachycardia, hypotension, temp >38 or <36.`,
-
-  'women-health': `Women's Health PHAY0077 Claire Grant:
-- Emergency Contraception (EC): indicated after unprotected sex on any day of cycle. Highest risk 6 days up to and including ovulation. From day 21 postpartum. Day 5 post-miscarriage/abortion.
-- Cu-IUD: most effective EC. Pre- and post-fertilisation action. Copper affects sperm motility. Endometrial inflammatory reaction prevents implantation. Insert within 5 days of UPSI or 5 days after earliest ovulation. Can be retained for ongoing contraception.
-- Ulipristal acetate: progesterone receptor modulator. Up to 120 hours (5 days). Avoid breastfeeding for 1 week after. Reduce efficacy if BMI >85kg or >35kg/m2.
-- Levonorgestrel: up to 72 hours. Reduces risk by 85% if taken <24h. Less effective with higher BMI.
-- OTC Desogestrel: progestogen-only pill. 75 microgram daily. 12-hour window. No oestrogen = fewer contraindications. Check drug interactions (enzyme inducers reduce efficacy).
-- Pharmacy Contraception Service (CPSC): pharmacies can now supply EC and desogestrel.
-- Vaginal Infections: Thrush (candida), Bacterial Vaginosis (BV - Gardnerella).
-- UTI: Nitrofurantoin via PGD. Eligibility: women 16-64, exclude pregnant, catheter, recurrent UTI, diabetes.
-- Urinary incontinence: stress, urge, mixed, overflow types. Pelvic floor exercises, bladder training, anticholinergics.
-- Menstrual cycle: ovulation 14 days before next period. Sperm viable up to 5 days. Ovum viable ~24 hours.`,
-
-  'pregnancy-lactation': `Pregnancy and Lactation UCL Pharmacy:
-- Teratogenicity: ability of drug to cause foetal abnormalities. Teratogens cross placenta. Critical period = organogenesis (weeks 3-8 post-conception). Historical: thalidomide.
-- Over 80% of UK women take medicines during pregnancy.
-- Pharmacokinetic changes in pregnancy: increased GFR (affects renally cleared drugs), increased plasma volume (affects distribution), altered hepatic metabolism, reduced albumin, gastric emptying delayed.
-- Drug transfer to foetus: passive diffusion across placenta. Affected by molecular weight, lipophilicity, protein binding, ionisation.
-- Transfer to breast milk: passive diffusion and active transport. Affected by pKa, protein binding, molecular weight. Milk:plasma ratio.
-- Conditions in pregnancy: emesis, hyperemesis, PIH, pre-eclampsia, eclampsia, VTE, gestational diabetes, infections.
-- Safe medicines in pregnancy: folate supplements, vitamins, iron, aspirin, metformin/insulin, labetalol, nifedipine, cyclizine, metoclopramide, antacids, PPIs.
-- Valproate: teratogen. Neural tube defects, facial malformations, neurodevelopmental disorders. Valproate Pregnancy Prevention Programme (PPP). Risk 10%.
-- Valproate alternatives: lamotrigine (safer but monitoring needed), levetiracetam.
-- Resources: LactMed, UK Teratology Information Service (UKTIS), BUMPS website.
-- Clinical decision making: risks vs benefits. Untreated condition may also harm mother and foetus.
-- Pharmacokinetics in lactation: pH of milk ~7.2 (slightly acidic). Weakly basic drugs concentrate in milk. Avoid drugs with high M:P ratio.`,
-
-  'public-health': `Public Health MPharm:
-- NHS Health Check: offered to adults 40-74 every 5 years. Screens for CVD risk, diabetes, obesity, dementia risk, alcohol use.
-- Health Check components: BMI, blood pressure, blood glucose (HbA1c), cholesterol, AUDIT-C (alcohol), physical activity, smoking status.
-- CVD risk calculation: QRISK3 tool. Based on age, sex, ethnicity, smoking, diabetes, BP, cholesterol, family history, deprivation.
-- AUDIT-C: 3 questions on alcohol frequency and quantity. >=5 women, >=8 men = hazardous/harmful drinking.
-- Gender equity in healthcare: women = 70% health workforce, only 20% organisations have gender parity on boards.
-- Occupational segregation: gender norms define caring as female. Men dominate technical specialisms. Individual, organisational and societal factors.
-- Gender pay gap: estimated 26% in health and social care (high-income countries). Higher than other sectors.
-- Intersectionality (Kimberle Crenshaw 1989): interconnected nature of social categorisations creating overlapping systems of discrimination. Race, class, gender, sexual orientation, disability.
-- FIP (International Pharmaceutical Federation): global body representing pharmacy. 144 national organisations, 4 million pharmacists globally.
-- Health inequalities: social determinants, deprivation, access, quality of care. Protected characteristics.
-- Opioid and gabapentinoid prescribing rates: higher in deprived areas. Public health concern.
-- 3 domains of Public Health: Health Improvement, Health Protection, Healthcare Public Health.`,
-
-  'medicines-adherence': `Medicines Adherence Prof. Robert Horne UCL:
-- Adherence rates vary between patients and within same patient over time. Non-adherence may be the norm not exception.
-- KEY CHALLENGE 1: Adherence rates variable. Most of us are non-adherent some of the time.
-- KEY CHALLENGE 2: Information-action gap. Information does not automatically change behaviour.
-- Perceptions and Practicalities Approach (PaPA) - NICE endorsed: DON'T WANT TO (perceptions: beliefs, emotions, biases) vs CAN'T (practicalities: capability, resource limitations).
-- Necessity-Concerns Framework: patients weigh necessity of medication against concerns. When concerns > necessity = non-adherence. Meta-analytic evidence across multiple conditions.
-- Intentional non-adherence: deliberate decision not to take medicines (e.g. fears side effects). Needs motivational approach.
-- Unintentional non-adherence: wants to take but can't (forgets, complex regimen, physical difficulty). Needs practical solutions.
-- Patient beliefs are the missing link in adherence. Kate case study: 17-year-old asthmatic admitted to ICU with life-threatening respiratory depression. Did not take preventer inhaler due to beliefs.
-- Addressing adherence: elicit patient's beliefs, address concerns, simplify regimen, support with practical aids.
-- Pharmacists role: identify adherence problems, non-judgmental questioning, shared decision making, medication reviews.`,
-
-  'hospital-pharmacy': `Hospital Pharmacy Workshop 1 PHAY0085:
-- Administrative screening: correct drug, dose, route, frequency, duration, legibility, signature, patient details, allergy status documented.
-- Clinical screening: appropriateness of indication, dose for renal/hepatic function, drug interactions, contraindications, monitoring.
-- Case 1 Manjit Gill: AF on phenytoin. ECG AF, HR 122. Plan: amiodarone + anticoagulation. Pharmacist issues: phenytoin interactions with amiodarone, anticoagulation choice with phenytoin (enzyme inducer), AF management.
-- Phenytoin = enzyme inducer. Interacts with warfarin (reduces efficacy), amiodarone (inhibits phenytoin metabolism = toxicity risk). Narrow therapeutic index - monitor levels.
-- DOACs vs Warfarin in AF: DOACs preferred. CHA2DS2-VASc score for stroke risk. HAS-BLED for bleeding risk.
-- Anticoagulation interactions table (2020): Strong CYP3A4 + P-gp inhibitors affect apixaban and rivaroxaban. Review using BNF, SPC, Stockley's.
-- Gentamicin dosing (once daily/extended interval): CrCl >=40: 5mg/kg max 520mg. CrCl 20-39: 3mg/kg max 280mg. CrCl 10-19: 2mg/kg max 120mg. Trough <1mg/L needed. Use CrCl (Cockcroft-Gault) NOT eGFR.
-- Cockcroft-Gault: CrCl = (140-age) x weight x constant / serum creatinine. Men 1.23, women 1.04. Use IBW if obese.
-- Case 2 Saeed Malik: neutropenic sepsis post-chemo. WBC 2.3, neutrophils 0.9. PIP/TAZ + gentamicin. Gentamicin dose calculation with AjBW if obese. Aminoglycosides: concentration-dependent killing, once-daily maximises peak:MIC ratio.
-- NG tube administration: check if formulation suitable, use liquid where possible, check interactions with feed.
-- Medicines reconciliation: compare pre-admission, inpatient, discharge medications. Identify discrepancies.`,
-
-  'neurology-oncology': `Neurology and Oncology Workshop PHAY0080/85:
-- Epilepsy medicines: valproate (teratogen, Pregnancy Prevention Programme, neural tube defects, neurodevelopmental harm), lamotrigine (safer in pregnancy, requires monitoring, interactions with OCP), levetiracetam (safer profile in pregnancy), phenytoin (enzyme inducer, narrow TI, interactions).
-- Valproate PPP: annual review, contraception required, specialist sign-off for under-55 females. 2 independent specialists to justify.
-- Parkinson's Disease: dopamine deficiency. Levodopa + carbidopa. COMT inhibitors. MAO-B inhibitors. Dose timing critical - on/off phenomena.
-- Dementia: Alzheimer's (acetylcholinesterase inhibitors - donepezil, rivastigmine, galantamine), vascular, Lewy body. NMDA antagonist: memantine for moderate-severe.
-- Glioma case (Mr CB): Stage 4 astrocytoma, metastases. PCV chemotherapy (procarbazine, lomustine/CCNU, vincristine). On ramipril, amlodipine, dexamethasone, levetiracetam.
-- Vinca alkaloids (vincristine): NPSA Alert 2008. Must NEVER be given intrathecally (fatal). Must be given as IV infusion in mini-bag. Label: FOR INTRAVENOUS USE ONLY - NOT FOR INTRATHECAL USE.
-- PCV chemotherapy: palliative in recurrent glioma. Adjuvant = after primary treatment. Neoadjuvant = before primary treatment.
-- Dexamethasone in brain tumours: reduces cerebral oedema. Dose tapered as treatment progresses to reduce side effects.
-- Levetiracetam preferred in brain tumour seizures: fewer interactions than phenytoin, valproate safer profile, renal excretion.
-- Chemotherapy supportive care: antiemetics (5-HT3 antagonists, NK1 antagonists), G-CSF (filgrastim for neutropenia), aciclovir prophylaxis.
-- NG tube: check formulation, use liquids/dispersible, separate from enteral feed for critical drugs.
-- Ethnicity and cancer journey: barriers to diagnosis, cultural factors, language, trust in healthcare.`,
-
-  'digital-pharmacy': `Digital Pharmacy NHS Digital:
-- NHS Digital = national information and technology partner for health and care. Serves 55 million in England. Runs 600+ live services.
-- Key systems: EPS (Electronic Prescription Service), SCR (Summary Care Record), EPMA (Electronic Prescribing and Medicines Administration).
-- Digital transformation drivers: patient safety, efficiency, data quality, integration, remote working.
-- Benefits: real-time prescribing information, reduced transcription errors, clinical decision support, audit trails.
-- Challenges: staff training, system interoperability, data security, equity of access, IT infrastructure.
-- Pharmacist role in digital health: clinical lead for EPMA, medicines informatics, digital tools implementation.
-- AI in pharmacy: clinical decision support, medication safety alerts, pattern recognition in adverse events.
-- Strategies for digital change: stakeholder engagement, clinical champions, training, evaluation.
-- Informatics skills: understanding coding (SNOMED CT, dm+d), data quality, system configuration.
-- Digital prescribing: reduces illegible prescriptions, supports dose banding, allergy checking.`
+  'clinical-reasoning': `Clinical Reasoning PHAY0085 MPharm:
+- Clinical reasoning = cognitive processes and strategies used to gather and analyse patient information to reach a diagnosis and management plan. Context-specific, individualised, iterative.
+- Dual Process Theory (Kahneman/Evans): System 1 = fast, automatic, pattern recognition, intuitive, heuristic-based. Efficient but prone to bias. System 2 = slow, deliberate, analytical, logical, effortful. Used for complex/novel presentations.
+- Effective clinical reasoning: switches between systems appropriately. Use System 1 for familiar patterns, System 2 for complex/uncertain/high-stakes cases.
+- Conscious Competence Learning Model: 4 stages - Unconscious incompetence (don't know what you don't know), Conscious incompetence (aware of knowledge gaps), Conscious competence (can do it with effort), Unconscious competence (automatic expertise).
+- Working diagnosis: provisional most probable diagnosis from initial assessment. Subject to revision. Differential diagnosis = ranked list of possible diagnoses.
+- Red flags: symptoms/signs suggesting serious pathology requiring urgent action. E.g. headache with neck stiffness (meningitis), chest pain with ECG changes (ACS), unexplained weight loss (malignancy).
+- Safety netting: planning for uncertainty. "If I'm right, what do I expect? How will I know if I'm wrong? What should the patient do then?" Essential component of all consultations.
+- Cognitive biases: anchoring (first impression sticks), availability (recent memorable diagnosis over-represented), premature closure (stop thinking once one diagnosis found), framing effect, confirmation bias, affective bias (emotional state influences reasoning).
+- Human factors: time pressure, fatigue, emotional state, workload, distractions, team dynamics - all affect reasoning quality.
+- Diagnostic uncertainty: normal and unavoidable. "Hear hooves, think horse not zebra" - common things are common. If cannot formulate differentials, may be beyond competence - seek help.
+- Risk aversion vs risk management: risk aversion = psychological avoidance of negative outcomes, leads to over-investigation, defensive practice. Risk management = rational balancing of probabilities and consequences.
+- Independent prescriber standard (GPhC): must prescribe only within clinical competence, take responsibility for decisions, maintain up-to-date knowledge.`
 };
 
 const TOPIC_KEYS = Object.keys(TOPIC_CONTENT);
