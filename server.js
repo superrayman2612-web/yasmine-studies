@@ -372,7 +372,7 @@ app.post('/api/generate-questions', async (req, res) => {
 
   const content = cleanContent(rawContent).substring(0, 2000);
 
-  const userPrompt = `Generate 5 MCQs for a UK final-year MPharm student. Topic: ${topicLabel}.
+  const userPrompt = `Generate 3 MCQs for a UK final-year MPharm student. Topic: ${topicLabel}.
 
 Return ONLY this JSON (no markdown, no extra text):
 {"questions":[{"question":"...","topic":"${topicLabel}","options":["A. ...","B. ...","C. ...","D. ..."],"correctIndex":0,"explanation":"..."}]}
@@ -385,24 +385,22 @@ ${content}`;
   try {
     const response = await client.messages.create({
       model: 'claude-haiku-3-5-20241022',
-      max_tokens: 1200,
-      system: [{ type: 'text', text: QA_SYSTEM, cache_control: { type: 'ephemeral' } }],
+      max_tokens: 800,
+      system: QA_SYSTEM,
       messages: [{ role: 'user', content: userPrompt }]
     });
 
-    const text = response.content.map(b => b.text || '').join('');
+    const text = response.content
+      .filter(block => block.type === 'text')
+      .map(block => block.text)
+      .join('');
     console.log('Raw API response:', text.substring(0, 800));
-    let parsed;
-    try {
-      const jsonStart = text.indexOf('{');
-      const jsonEnd = text.lastIndexOf('}');
-      if (jsonStart === -1 || jsonEnd === -1) throw new Error('No JSON object found in response');
-      const jsonStr = text.substring(jsonStart, jsonEnd + 1);
-      parsed = JSON.parse(jsonStr);
-    } catch (parseErr) {
-      console.error('JSON parse failed:', parseErr.message, '| Full raw response:', text);
-      return res.status(500).json({ error: 'Failed to parse AI response: ' + parseErr.message });
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      console.error('No JSON found. Full response:', text);
+      throw new Error('No JSON found in response');
     }
+    const parsed = JSON.parse(jsonMatch[0]);
     res.json(parsed);
   } catch (e) {
     console.error('Error:', e.message, e.status);
