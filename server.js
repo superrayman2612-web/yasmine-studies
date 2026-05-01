@@ -384,7 +384,7 @@ ${content}`;
 
   try {
     const response = await client.messages.create({
-      model: 'claude-haiku-3-5',
+      model: 'claude-haiku-4-5',
       max_tokens: 1500,
       system: [{ type: 'text', text: QA_SYSTEM, cache_control: { type: 'ephemeral' } }],
       messages: [{ role: 'user', content: userPrompt }]
