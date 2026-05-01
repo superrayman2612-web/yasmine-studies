@@ -391,13 +391,17 @@ ${content}`;
     });
 
     const text = response.content.map(b => b.text || '').join('');
-    console.log('Raw API response:', text.substring(0, 500));
+    console.log('Raw API response:', text.substring(0, 800));
     let parsed;
     try {
-      parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+      const jsonStart = text.indexOf('{');
+      const jsonEnd = text.lastIndexOf('}');
+      if (jsonStart === -1 || jsonEnd === -1) throw new Error('No JSON object found in response');
+      const jsonStr = text.substring(jsonStart, jsonEnd + 1);
+      parsed = JSON.parse(jsonStr);
     } catch (parseErr) {
-      console.error('JSON parse failed. Raw response:', text);
-      return res.status(500).json({ error: 'Failed to parse AI response. Raw: ' + text.substring(0, 200) });
+      console.error('JSON parse failed:', parseErr.message, '| Full raw response:', text);
+      return res.status(500).json({ error: 'Failed to parse AI response: ' + parseErr.message });
     }
     res.json(parsed);
   } catch (e) {
