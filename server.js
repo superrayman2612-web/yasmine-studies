@@ -352,7 +352,7 @@ const QA_SYSTEM = 'UK MPharm MCQ writer. Produce clinically accurate exam questi
 
 app.post('/api/generate-questions', async (req, res) => {
   res.setTimeout(120000);
-  const { topic } = req.body;
+  const { topic, seed } = req.body;
   if (!topic) return res.status(400).json({ error: 'topic is required' });
 
   let rawContent;
@@ -372,7 +372,9 @@ app.post('/api/generate-questions', async (req, res) => {
 
   const content = cleanContent(rawContent).substring(0, 2000);
 
-  const userPrompt = `Generate 3 MCQs for a UK final-year MPharm student. Topic: ${topicLabel}.
+  const userPrompt = `Session ID: ${seed || Date.now()} - generate completely different questions from any previous session.
+
+Generate 3 MCQs for a UK final-year MPharm student. Topic: ${topicLabel}.
 
 Return ONLY this JSON (no markdown, no extra text):
 {"questions":[{"question":"...","topic":"${topicLabel}","options":["A. ...","B. ...","C. ...","D. ..."],"correctIndex":0,"explanation":"..."}]}

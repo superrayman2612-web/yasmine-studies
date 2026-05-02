@@ -2037,18 +2037,28 @@ async function startQuizByTopic(topic) {
 async function generateQuestions(topicOverride) {
   const topic = topicOverride || document.getElementById('topicSelect').value;
   state.currentTopic = topic;
+  state.currentQuestions = [];
   state.answers = {};
   state.quizFinished = false;
+
+  const container = document.getElementById('questionsContainer');
+  container.innerHTML = '';
+  document.getElementById('quizResult').style.display = 'none';
+  document.getElementById('progressLabel').textContent = 'QUESTION 0 / 0';
+  document.getElementById('progressPct').textContent = '0%';
+  document.getElementById('progressFill').style.width = '0%';
 
   const topicLabel = topic === 'all' ? 'Mixed Topics' : topic.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   // Show loading synchronously before the async fetch begins
   setLoading(true, topicLabel);
 
+  const seed = Date.now();
+
   try {
     const res = await fetch('/api/generate-questions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic })
+      body: JSON.stringify({ topic, seed })
     });
 
     if (!res.ok) {
