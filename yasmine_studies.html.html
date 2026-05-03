@@ -584,6 +584,43 @@
 
   @keyframes fadeIn { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:translateY(0)} }
 
+  .repeated-flag-btn {
+    background: transparent;
+    border: 1px solid rgba(255,140,0,0.45);
+    color: rgba(255,140,0,0.75);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 2px;
+    padding: 3px 9px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .repeated-flag-btn:hover {
+    border-color: rgba(255,140,0,0.9);
+    color: rgba(255,140,0,1);
+    background: rgba(255,140,0,0.08);
+  }
+
+  .new-question-btn {
+    background: transparent;
+    border: 1px solid rgba(0,229,255,0.35);
+    color: rgba(0,229,255,0.65);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    padding: 6px 14px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: all 0.2s;
+  }
+  .new-question-btn:hover {
+    border-color: rgba(0,229,255,0.8);
+    color: rgba(0,229,255,1);
+    background: rgba(0,229,255,0.07);
+  }
+
   .result-badge {
     display: inline-flex;
     align-items: center;
@@ -1789,7 +1826,8 @@ const state = {
   currentTopic: 'all',
   currentQuestions: [],
   answers: {},
-  quizFinished: false
+  quizFinished: false,
+  seenQuestions: []
 };
 
 // ===================== TOPIC KEYS (content lives on the server) =====================
@@ -2040,6 +2078,7 @@ async function generateQuestions(topicOverride) {
   state.currentQuestions = [];
   state.answers = {};
   state.quizFinished = false;
+  state.seenQuestions = [];
 
   const container = document.getElementById('questionsContainer');
   container.innerHTML = '';
@@ -2093,6 +2132,9 @@ function renderQuiz() {
   container.innerHTML = '';
 
   state.currentQuestions.forEach((q, qi) => {
+    if (!state.seenQuestions.includes(q.question)) {
+      state.seenQuestions.push(q.question);
+    }
     const card = document.createElement('div');
     card.className = 'question-card';
     card.id = 'qcard-' + qi;
@@ -2101,6 +2143,7 @@ function renderQuiz() {
       <div class="question-header">
         <div class="question-num">Q${qi+1}</div>
         <span class="question-topic-tag">${q.topic || 'PHARMACY'}</span>
+        <button class="repeated-flag-btn" id="repeated-${qi}" onclick="replaceQuestion(${qi})">⚑ REPEATED</button>
         <div class="question-text">${q.question}</div>
       </div>
       <div class="options-grid">
@@ -2115,6 +2158,7 @@ function renderQuiz() {
         <strong>// EXPLANATION //</strong>
         ${q.explanation}
       </div>
+      <button class="new-question-btn" id="newq-${qi}" onclick="replaceQuestion(${qi})" style="display:none;">↻ NEW QUESTION</button>
     `;
     container.appendChild(card);
   });
@@ -2137,6 +2181,12 @@ function selectAnswer(qi, oi) {
 
   // Show explanation
   document.getElementById(`exp-${qi}`).classList.add('show');
+
+  // Swap repeat-flag for new-question button
+  const repeatedBtn = document.getElementById('repeated-' + qi);
+  const newqBtn = document.getElementById('newq-' + qi);
+  if (repeatedBtn) repeatedBtn.style.display = 'none';
+  if (newqBtn) newqBtn.style.display = '';
 
   // Update stats
   state.stats.total++;
@@ -2197,6 +2247,77 @@ function finishQuiz() {
     : pct >= 60
     ? '◈ GOOD PROGRESS — KEEP TRAINING'
     : '⟁ MORE PRACTICE NEEDED — REVIEW FLASHCARDS';
+}
+
+// ===================== QUESTION REPLACEMENT =====================
+async function replaceQuestion(qi) {
+  const oldQ = state.currentQuestions[qi];
+  const card = document.getElementById('qcard-' + qi);
+  if (!card) return;
+
+  if (!state.seenQuestions.includes(oldQ.question)) {
+    state.seenQuestions.push(oldQ.question);
+  }
+
+  card.innerHTML = `<div style="padding:2rem;text-align:center;font-family:'Share Tech Mono',monospace;color:rgba(0,229,255,0.4);letter-spacing:2px;font-size:0.68rem;">// FETCHING NEW QUESTION...</div>`;
+
+  try {
+    const res = await fetch('/api/generate-single', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic: state.currentTopic, avoidQuestions: state.seenQuestions })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Server error');
+    }
+    const data = await res.json();
+    const newQ = data.question;
+
+    state.currentQuestions[qi] = newQ;
+    if (!state.seenQuestions.includes(newQ.question)) {
+      state.seenQuestions.push(newQ.question);
+    }
+    delete state.answers[qi];
+
+    renderSingleCard(qi, newQ);
+    showNotification('↻ Fresh question loaded', 'info');
+  } catch(e) {
+    showNotification('Could not fetch new question. Try again.', 'error');
+    renderSingleCard(qi, oldQ);
+  }
+}
+
+function renderSingleCard(qi, q) {
+  const card = document.getElementById('qcard-' + qi);
+  if (!card) return;
+  card.innerHTML = `
+    <div class="question-header">
+      <div class="question-num">Q${qi+1}</div>
+      <span class="question-topic-tag">${q.topic || 'PHARMACY'}</span>
+      <button class="repeated-flag-btn" id="repeated-${qi}" onclick="replaceQuestion(${qi})">⚑ REPEATED</button>
+      <div class="question-text">${q.question}</div>
+    </div>
+    <div class="options-grid">
+      ${q.options.map((opt, oi) => `
+        <button class="option-btn" id="opt-${qi}-${oi}" onclick="selectAnswer(${qi}, ${oi})">
+          <span class="option-label">${String.fromCharCode(65+oi)}</span>
+          <span>${opt.replace(/^[A-D]\.\s*/,'')}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="explanation-box" id="exp-${qi}">
+      <strong>// EXPLANATION //</strong>
+      ${q.explanation}
+    </div>
+    <button class="new-question-btn" id="newq-${qi}" onclick="replaceQuestion(${qi})" style="display:none;">↻ NEW QUESTION</button>
+  `;
+  const answered = Object.keys(state.answers).length;
+  const total = state.currentQuestions.length;
+  const pct = total > 0 ? Math.round(answered / total * 100) : 0;
+  document.getElementById('progressLabel').textContent = `ANSWERED ${answered} / ${total}`;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
 }
 
 // ===================== FLASHCARDS =====================

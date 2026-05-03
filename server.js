@@ -419,6 +419,86 @@ Return ONLY valid JSON, no markdown:
   }
 });
 
+// ===================== GENERATE SINGLE QUESTION =====================
+app.post('/api/generate-single', async (req, res) => {
+  res.setTimeout(120000);
+  const { topic, avoidQuestions } = req.body;
+  if (!topic) return res.status(400).json({ error: 'topic is required' });
+
+  let rawContent;
+  let topicLabel;
+
+  if (topic === 'all') {
+    const randomKey = TOPIC_KEYS[Math.floor(Math.random() * TOPIC_KEYS.length)];
+    rawContent = getTopicContent(randomKey);
+    topicLabel = randomKey.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  } else {
+    rawContent = getTopicContent(topic);
+    topicLabel = topic.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  const content = cleanContent(rawContent).substring(0, 2000);
+
+  const avoidList = Array.isArray(avoidQuestions) && avoidQuestions.length > 0
+    ? avoidQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')
+    : null;
+
+  const avoidSection = avoidList
+    ? `\n\nDO NOT repeat any of these questions:\n${avoidList}\n\nMake the new question completely different.`
+    : '';
+
+  const userPrompt = `Generate 1 new MCQ for a UK final-year MPharm student. Topic: ${topicLabel}.${avoidSection}
+
+Return ONLY this JSON (no markdown, no extra text):
+{"question":{"question":"...","topic":"${topicLabel}","options":["A. ...","B. ...","C. ...","D. ..."],"correctIndex":0,"explanation":"..."}}
+
+Rules: 4 options (A-D), exactly 1 correct answer, clinically relevant, explanation 1-2 sentences.
+
+CONTENT:
+${content}`;
+
+  const callAPI = async (prompt, maxTokens) => {
+    const response = await client.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: maxTokens,
+      system: QA_SYSTEM,
+      messages: [{ role: 'user', content: prompt }]
+    });
+    const text = response.content
+      .filter(block => block.type === 'text')
+      .map(block => block.text)
+      .join('');
+    console.log('generate-single response (first 500 chars):', text.substring(0, 500));
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('No JSON found in response: ' + text.substring(0, 200));
+    return JSON.parse(jsonMatch[0]);
+  };
+
+  try {
+    let parsed;
+    try {
+      parsed = await callAPI(userPrompt, 1000);
+    } catch (firstErr) {
+      console.error('generate-single first attempt failed:', firstErr.message, '— retrying');
+      const retryPrompt = `Generate 1 MCQ on "${topicLabel}" for a UK MPharm student.
+Return ONLY valid JSON, no markdown:
+{"question":{"question":"...","topic":"${topicLabel}","options":["A. ...","B. ...","C. ...","D. ..."],"correctIndex":0,"explanation":"..."}}`;
+      parsed = await callAPI(retryPrompt, 800);
+    }
+
+    if (parsed.question) {
+      res.json({ question: parsed.question });
+    } else if (parsed.questions && parsed.questions[0]) {
+      res.json({ question: parsed.questions[0] });
+    } else {
+      throw new Error('Unexpected response shape');
+    }
+  } catch (e) {
+    console.error('generate-single error:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to generate question. Please try again.' });
+  }
+});
+
 // ===================== CHAT SYSTEM PROMPT =====================
 const CHAT_SYSTEM_PROMPT = `You are an expert AI pharmacy tutor for Yasmine, a final-year MPharm student in the UK studying "Preparation for Practice" (PHAY0085) at UCL School of Pharmacy. You have deep knowledge of all her course content.
 
